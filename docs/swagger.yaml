@@ -1,0 +1,1077 @@
+basePath: /api/v1
+definitions:
+  helper.Meta:
+    properties:
+      has_next:
+        type: boolean
+      limit:
+        type: integer
+      next_cursor:
+        type: string
+      page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  helper.Response:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      meta:
+        $ref: '#/definitions/helper.Meta'
+      success:
+        type: boolean
+    type: object
+  model.Budget:
+    properties:
+      amount:
+        type: number
+      category_id:
+        type: integer
+      category_name:
+        type: string
+      id:
+        type: integer
+      month:
+        type: integer
+      user_id:
+        type: integer
+      year:
+        type: integer
+    type: object
+  model.BudgetListResponse:
+    properties:
+      budgets:
+        items:
+          $ref: '#/definitions/model.BudgetStatus'
+        type: array
+      month:
+        type: integer
+      total_budget:
+        type: number
+      total_remaining:
+        type: number
+      total_spent:
+        type: number
+      year:
+        type: integer
+    type: object
+  model.BudgetStatus:
+    properties:
+      budget_amount:
+        type: number
+      budget_id:
+        type: integer
+      category_id:
+        type: integer
+      category_name:
+        type: string
+      is_exceeded:
+        type: boolean
+      month:
+        type: integer
+      remaining_amount:
+        type: number
+      spent_amount:
+        type: number
+      usage_percentage:
+        type: number
+      year:
+        type: integer
+    type: object
+  model.Category:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.CreateCategoryRequest:
+    properties:
+      name:
+        example: Makan Harian
+        maxLength: 50
+        minLength: 2
+        type: string
+      type:
+        enum:
+        - income
+        - expense
+        example: expense
+        type: string
+    required:
+    - name
+    - type
+    type: object
+  model.CreateTransactionRequest:
+    properties:
+      amount:
+        example: 75000
+        type: number
+      category_id:
+        example: 1
+        type: integer
+      description:
+        example: Makan siang
+        maxLength: 500
+        type: string
+      transaction_date:
+        example: "2026-11-18"
+        type: string
+    required:
+    - category_id
+    type: object
+  model.DashboardSummary:
+    properties:
+      balance:
+        example: 2250000
+        type: number
+      month:
+        example: 11
+        type: integer
+      total_expense:
+        example: 2750000
+        type: number
+      total_income:
+        example: 5000000
+        type: number
+      transaction_count:
+        example: 24
+        type: integer
+      year:
+        example: 2026
+        type: integer
+    type: object
+  model.LoginRequest:
+    properties:
+      email:
+        example: budi@example.com
+        maxLength: 100
+        type: string
+      password:
+        example: Rahasia#123
+        maxLength: 72
+        minLength: 8
+        type: string
+      username:
+        example: ""
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - password
+    type: object
+  model.LoginResponse:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      expires_in:
+        example: 900
+        type: integer
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      token_type:
+        example: Bearer
+        type: string
+      user:
+        $ref: '#/definitions/model.UserResponse'
+    type: object
+  model.RefreshRequest:
+    properties:
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    required:
+    - refresh_token
+    type: object
+  model.RegisterRequest:
+    properties:
+      email:
+        example: budi@example.com
+        maxLength: 100
+        type: string
+      password:
+        example: Rahasia#123
+        maxLength: 72
+        minLength: 8
+        type: string
+      username:
+        example: budi
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  model.SetBudgetRequest:
+    properties:
+      amount:
+        example: 1500000
+        type: number
+      category_id:
+        example: 1
+        type: integer
+      month:
+        example: 11
+        maximum: 12
+        minimum: 1
+        type: integer
+      year:
+        example: 2026
+        maximum: 2100
+        minimum: 2000
+        type: integer
+    required:
+    - amount
+    - category_id
+    - month
+    - year
+    type: object
+  model.Transaction:
+    properties:
+      amount:
+        type: number
+      category_id:
+        type: integer
+      category_name:
+        type: string
+      category_type:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      transaction_date:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.UpdateCategoryRequest:
+    properties:
+      name:
+        example: Transportasi
+        maxLength: 50
+        minLength: 2
+        type: string
+      type:
+        enum:
+        - income
+        - expense
+        example: expense
+        type: string
+    required:
+    - name
+    - type
+    type: object
+  model.UpdateTransactionRequest:
+    properties:
+      amount:
+        example: 50000
+        type: number
+      category_id:
+        example: 2
+        type: integer
+      description:
+        example: Makan malam
+        maxLength: 500
+        type: string
+      transaction_date:
+        example: "2026-11-19"
+        type: string
+    type: object
+  model.UserResponse:
+    properties:
+      created_at:
+        example: "2026-11-18T10:00:00Z"
+        type: string
+      email:
+        example: budi@example.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      is_active:
+        example: true
+        type: boolean
+      role:
+        example: user
+        type: string
+      username:
+        example: budi
+        type: string
+    type: object
+info:
+  contact:
+    email: admin@monetry.local
+    name: Monetry Team
+  description: REST API aplikasi pencatatan keuangan pribadi (Monetry). Mendukung
+    autentikasi JWT dengan rotasi refresh token, manajemen kategori & transaksi, budget
+    bulanan, serta ringkasan dashboard.
+  termsOfService: http://swagger.io/terms/
+  title: Monetry API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login memakai email atau username. Menghasilkan access token (15
+        menit) dan refresh token (7 hari).
+      parameters:
+      - description: Kredensial login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login berhasil
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.LoginResponse'
+              type: object
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Kredensial salah
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Akun tidak aktif
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Login user
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Mencabut refresh token yang dikirim sehingga tidak bisa dipakai
+        lagi.
+      parameters:
+      - description: Refresh token yang akan dicabut
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logout berhasil
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Token bukan milik user yang login
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - Auth
+  /auth/me:
+    get:
+      description: Mengembalikan data user beserta role berdasarkan access token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profil user
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserResponse'
+              type: object
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: User tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Profil user yang sedang login
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Menukar refresh token lama dengan pasangan access & refresh token
+        baru. Refresh token lama langsung dicabut (token rotation).
+      parameters:
+      - description: Refresh token lama
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Token berhasil dirotasi
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.LoginResponse'
+              type: object
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Refresh token tidak valid / sudah dicabut
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Rotasi token
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Mendaftarkan akun baru. Password di-hash dengan bcrypt dan role
+        default adalah "user".
+      parameters:
+      - description: Data registrasi
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Registrasi berhasil
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserResponse'
+              type: object
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "409":
+          description: Email atau username sudah terdaftar
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Registrasi user baru
+      tags:
+      - Auth
+  /budgets:
+    get:
+      description: Menampilkan budget pada suatu periode beserta realisasi pengeluaran
+        dan sisa budget per kategori. Sisa = budget - total pengeluaran kategori pada
+        bulan tersebut. Default periode adalah bulan berjalan.
+      parameters:
+      - description: Bulan (1-12), default bulan berjalan
+        in: query
+        name: month
+        type: integer
+      - description: Tahun, default tahun berjalan
+        in: query
+        name: year
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Status budget
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.BudgetListResponse'
+              type: object
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Status & sisa budget
+      tags:
+      - Budgets
+    post:
+      consumes:
+      - application/json
+      description: Menetapkan atau memperbarui nominal budget untuk kategori pengeluaran
+        pada bulan & tahun tertentu. Kombinasi (user, kategori, bulan, tahun) bersifat
+        unik.
+      parameters:
+      - description: Data budget
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.SetBudgetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Budget disimpan
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Budget'
+              type: object
+        "400":
+          description: Body tidak valid / kategori bukan pengeluaran
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Kategori bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Kategori tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Menetapkan budget bulanan
+      tags:
+      - Budgets
+  /categories:
+    get:
+      description: Menampilkan kategori milik user yang sedang login dengan paginasi,
+        filter tipe, dan pencarian nama.
+      parameters:
+      - description: Halaman (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Jumlah data per halaman (default 10, maks 100)
+        in: query
+        name: limit
+        type: integer
+      - description: Filter tipe
+        enum:
+        - income
+        - expense
+        in: query
+        name: type
+        type: string
+      - description: Pencarian nama kategori
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Daftar kategori
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Category'
+                  type: array
+              type: object
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Daftar kategori
+      tags:
+      - Categories
+    post:
+      consumes:
+      - application/json
+      description: Membuat kategori baru (income/expense) milik user yang sedang login.
+        Nama kategori unik per user.
+      parameters:
+      - description: Data kategori
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Kategori dibuat
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Category'
+              type: object
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "409":
+          description: Nama kategori sudah ada
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Membuat kategori
+      tags:
+      - Categories
+  /categories/{id}:
+    delete:
+      description: Menghapus kategori milik user. Kategori yang masih memiliki transaksi
+        tidak bisa dihapus (restriksi relasi).
+      parameters:
+      - description: ID kategori
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Kategori dihapus
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: ID tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Kategori bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Kategori tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "409":
+          description: Kategori masih memiliki transaksi
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Menghapus kategori
+      tags:
+      - Categories
+    put:
+      consumes:
+      - application/json
+      description: Mengubah nama dan/atau tipe kategori milik user. Ownership check
+        dilakukan di service layer.
+      parameters:
+      - description: ID kategori
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Data kategori
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Kategori diperbarui
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Category'
+              type: object
+        "400":
+          description: ID/body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Kategori bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Kategori tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "409":
+          description: Nama kategori sudah dipakai
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Mengubah kategori
+      tags:
+      - Categories
+  /dashboard/summary:
+    get:
+      description: Mengembalikan total pemasukan, total pengeluaran, dan saldo bersih
+        (selisih) pada bulan berjalan. Parameter month/year opsional untuk periode
+        lain.
+      parameters:
+      - description: Bulan (1-12), default bulan berjalan
+        in: query
+        name: month
+        type: integer
+      - description: Tahun, default tahun berjalan
+        in: query
+        name: year
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ringkasan keuangan
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.DashboardSummary'
+              type: object
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Ringkasan dashboard
+      tags:
+      - Dashboard
+  /health:
+    get:
+      description: Memastikan service berjalan.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Service sehat
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Health check
+      tags:
+      - Health
+  /transactions:
+    get:
+      description: Menampilkan riwayat transaksi user dengan filter bulan/tahun, tipe,
+        kategori, serta cursor-based pagination.
+      parameters:
+      - description: Jumlah data per halaman (default 10, maks 100)
+        in: query
+        name: limit
+        type: integer
+      - description: Cursor halaman berikutnya (dari meta.next_cursor)
+        in: query
+        name: cursor
+        type: string
+      - description: Filter bulan (1-12)
+        in: query
+        name: month
+        type: integer
+      - description: Filter tahun, wajib dikirim bersama month
+        in: query
+        name: year
+        type: integer
+      - description: Filter tipe
+        enum:
+        - income
+        - expense
+        in: query
+        name: type
+        type: string
+      - description: Filter kategori
+        in: query
+        name: category_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Daftar transaksi
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Transaction'
+                  type: array
+              type: object
+        "400":
+          description: Parameter tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Daftar transaksi
+      tags:
+      - Transactions
+    post:
+      consumes:
+      - application/json
+      description: Mencatat pemasukan/pengeluaran. Validasi kepemilikan kategori dan
+        insert transaksi dijalankan dalam satu database transaction (WithTx) sehingga
+        atomik. Nominal wajib > 0.
+      parameters:
+      - description: Data transaksi
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Transaksi dibuat
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Transaction'
+              type: object
+        "400":
+          description: Body tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Kategori bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Kategori tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal (amount harus > 0)
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Mencatat transaksi
+      tags:
+      - Transactions
+  /transactions/{id}:
+    delete:
+      description: Menghapus transaksi milik user. Ownership check dilakukan di dalam
+        database transaction.
+      parameters:
+      - description: ID transaksi
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaksi dihapus
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: ID tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Transaksi bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Transaksi tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Menghapus transaksi
+      tags:
+      - Transactions
+    put:
+      consumes:
+      - application/json
+      description: Mengubah transaksi milik user. Ownership check dilakukan di service
+        layer dan seluruh perubahan dijalankan dalam satu database transaction.
+      parameters:
+      - description: ID transaksi
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Perubahan transaksi (field opsional)
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaksi diperbarui
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Transaction'
+              type: object
+        "400":
+          description: ID/body/parameter tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Transaksi atau kategori bukan milik user
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Transaksi/kategori tidak ditemukan
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "422":
+          description: Validasi gagal
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Mengubah transaksi
+      tags:
+      - Transactions
+  /users:
+    get:
+      description: Menampilkan seluruh user pada sistem dengan paginasi dan pencarian
+        username/email. Hanya bisa diakses role admin.
+      parameters:
+      - description: Halaman (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Jumlah data per halaman (default 10, maks 100)
+        in: query
+        name: limit
+        type: integer
+      - description: Pencarian username atau email
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Daftar user
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.UserResponse'
+                  type: array
+              type: object
+        "401":
+          description: Token tidak valid
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "403":
+          description: Bukan admin
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - BearerAuth: []
+      summary: Daftar seluruh user (Admin)
+      tags:
+      - Users
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    description: Ketik "Bearer {access_token}" untuk mengakses endpoint yang dilindungi.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
