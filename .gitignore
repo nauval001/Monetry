@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Binary
+/bin/
+monetry-api
+monetry-api.exe
+
+# Test & coverage
+*.out
+coverage.html
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+.tmp_*
